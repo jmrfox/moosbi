@@ -21,6 +21,59 @@ def _lag1_autocorr(x: np.ndarray) -> float:
 
 
 class OUExampleSimulator(Simulator):
+    """Ornstein–Uhlenbeck (OU) example simulator.
+
+    Model
+    -----
+    The OU process is a mean-reverting Gaussian diffusion defined by the SDE
+
+        dX_t = θ (μ − X_t) dt + σ dW_t,
+
+    where θ > 0 is the mean-reversion rate, μ is the long-run mean, σ > 0 is the
+    diffusion scale, and W_t is a standard Wiener process. For small dt, the
+    discrete-time lag-1 autocorrelation is approximately exp(−θ·dt).
+
+    Inputs as parameters
+    --------------------
+    In moosbi, all model inputs (including simulation controls and targets) are
+    represented as entries of a `ParameterSet`. This simulator expects the
+    following keys (all provided via the `ParameterSet`):
+
+    - "theta" (float, sampled): mean-reversion rate (> 0)
+    - "mu" (float, sampled): long-run mean
+    - "sigma" (float, sampled): diffusion scale (> 0)
+    - "T" (float, fixed): total simulated time (default 1.0)
+    - "dt" (float, fixed): time step for Euler–Maruyama (default 1e-3)
+    - "burn_in" (int, fixed): number of initial steps to drop (default 0)
+    - "x0" (float, fixed): initial state (default μ)
+
+    Optionally, targets for objectives may also be included as fixed parameters:
+    - "target_mean", "target_var", "target_ac1".
+
+    Outputs
+    -------
+    The simulator returns a dict containing:
+    - "series": np.ndarray of the simulated trajectory after burn-in
+    - "mean": float, empirical mean of the series
+    - "var": float, empirical variance of the series (ddof=0)
+    - "ac1": float, empirical lag-1 autocorrelation of the series
+
+    Numerical scheme and randomness
+    -------------------------------
+    Integration uses Euler–Maruyama:
+
+        X_{t+dt} = X_t + θ (μ − X_t) dt + σ sqrt(dt) ξ,   ξ ~ N(0, 1)
+
+    If a seed is supplied to `simulate(params, seed)`, `numpy.random.seed(seed)`
+    is set before generating the trajectory to provide reproducibility.
+
+    Usage
+    -----
+    Construct a `ParameterBank` with sampled model parameters and fixed inputs/targets,
+    draw a `theta` vector if `theta_sampling=True`, convert to a `ParameterSet`, and call
+    `simulate(params, seed)`. Objective and summary functions should consume the
+    returned output dict together with the same `ParameterSet` used for simulation.
+    """
     def simulate(self, params: ParameterSet, seed: Optional[int] = None) -> Any:
         theta = float(params["theta"])  # mean reversion rate > 0
         mu = float(params["mu"])       # long-run mean
