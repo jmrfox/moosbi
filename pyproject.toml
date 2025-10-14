@@ -1,0 +1,28 @@
+[project]
+name = "moosbi"
+version = "0.1.0"
+description = "Pipeline for parameter optimization and simulation-based inference by composing pymoo and sbi."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "pandas>=2.2",
+    "pymoo>=0.6.1.5",
+    "sbi>=0.25.0",
+]
+
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["moosbi"]
+
+[dependency-groups]
+dev = [
+    "corner>=2.2.3",
+    "pytest>=8.0",
+    "ipykernel>=6.29",
+    "matplotlib>=3.8",
+]
