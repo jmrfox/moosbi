@@ -5,7 +5,7 @@ Pipeline for parameter optimization and simulation-based inference by composing 
 `moosbi` provides a reproducible pipeline to calibrate model parameters by first narrowing to an optimal region of parameter space via multi-objective optimization, then learning a posterior over parameters with simulation-based inference.
 
 ## All inputs are parameters
-`moosbi` treats every model input as a parameter managed by `ParameterBank` in `moosbi/scip.py`. There is no separate "input" concept at the API level. Instead:
+`moosbi` treats every model input as a parameter managed by `ParameterBank` in `moosbi/params.py`. There is no separate "input" concept at the API level. Instead:
 - **Sampled parameters**: set `is_sampled=True` (optimized/inferred by MOO/SBI).
 - **Fixed parameters/inputs**: include them in the bank with `is_sampled=False` (constants like experimental settings, targets, or simulation controls).
 
@@ -53,7 +53,7 @@ flowchart LR
 ```
 
 ## Current status
-- Early development. Parameter/space management lives in `moosbi/scip.py` and will be the foundation for the pipeline.
+- Early development. Parameter/space management lives in `moosbi/params.py` and will be the foundation for the pipeline.
 - APIs and examples are evolving; packaging and docs are forthcoming.
 
 ## References

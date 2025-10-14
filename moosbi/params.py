@@ -1,5 +1,4 @@
 """
-scip = Jordan's Scientific Parameters
 This module provides a framework for managing scientific parameters, including real-valued parameters
 with optional sampling, constraints, and parameter sets.
 

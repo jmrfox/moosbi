@@ -1,13 +1,13 @@
 # TODO — moosbi
 
 ## Immediate next steps
-- **Stabilize parameter management**: finalize API in `moosbi/scip.py` for parameter spaces, bounds, transforms.
+- **Stabilize parameter management**: finalize API in `moosbi/params.py` for parameter spaces, bounds, transforms.
 - **Define pipeline API**: specify functions/classes for `optimize_with_pymoo()`, `build_prior_from_pareto()`, `infer_with_sbi()`, and a high-level `run_pipeline()`.
 - **Pick initial working example**: OU simulator (done) and later LIF.
 
 ## Milestones
 - **M0 — Scaffolding**: packaging (`pyproject.toml`), basic docs, pre-commit/lint/test.
-- **M1 — Parameter/space**: finalize `scip.py` shapes, validation, sampling utilities.
+- **M1 — Parameter/space**: finalize `params.py` shapes, validation, sampling utilities.
 - **M2 — pymoo integration**: wrappers for defining objectives/constraints, running optimization, retrieving Pareto set/front. (in progress)
 - **M3 — prior from Pareto**: strategy interface (e.g., KDE, GMM, truncated box) to convert Pareto region into an informative prior.
 - **M4 — sbi integration**: simulator adapter, posterior training (SNPE/SNLE/SNRE), conditioning on observed data.

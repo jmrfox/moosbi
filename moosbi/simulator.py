@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from typing import Any, Callable, Iterable, Optional, Sequence, Tuple, List
 import numpy as np
 
-from .scip import ParameterBank, ParameterSet
+from .params import ParameterBank, ParameterSet
 
 
 class Simulator(ABC):

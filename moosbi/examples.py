@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any, Callable, List, Optional, Sequence
 import numpy as np
 
-from .scip import ParameterSet, ParameterBank
+from .params import ParameterSet, ParameterBank
 from .simulator import Simulator
 
 

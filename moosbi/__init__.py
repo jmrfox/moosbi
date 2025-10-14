@@ -1,6 +1,6 @@
 # Python __init__ file for moosbi
 
-from .scip import (
+from .params import (
     IndependentParameter,
     ParameterSet,
     DerivedParameter,
