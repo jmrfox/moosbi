@@ -145,3 +145,51 @@ def make_ou_example(
         seeds=list(seeds) if seeds is not None else None,
         summary_fn=summary_fn,
     )
+
+
+class BiTarget2DSimulator(Simulator):
+    """Deterministic 2D bi-target example.
+
+    Parameters (in `ParameterSet`):
+    - x, y: sampled decision variables
+    - ax, ay: fixed target A coordinates
+    - bx, by: fixed target B coordinates
+
+    Objectives:
+    - f1 = (x - ax)^2 + (y - ay)^2
+    - f2 = (x - bx)^2 + (y - by)^2
+    """
+
+    def simulate(self, params: ParameterSet, seed: Optional[int] = None) -> Any:
+        x = float(params["x"])
+        y = float(params["y"])
+        ax = float(params.get("ax", 0.0))
+        ay = float(params.get("ay", 0.0))
+        bx = float(params.get("bx", 1.0))
+        by = float(params.get("by", 0.0))
+
+        f1 = (x - ax) ** 2 + (y - ay) ** 2
+        f2 = (x - bx) ** 2 + (y - by) ** 2
+        return {"x": x, "y": y, "ax": ax, "ay": ay, "bx": bx, "by": by, "f1": f1, "f2": f2}
+
+
+def bitarget_obj1(output: Any, params: ParameterSet) -> float:
+    return float(output["f1"])
+
+
+def bitarget_obj2(output: Any, params: ParameterSet) -> float:
+    return float(output["f2"])
+
+
+def make_bitarget2d_example(
+    bank: ParameterBank,
+    seeds: Optional[Sequence[int]] = None,
+    use_objectives: Sequence[Callable[[Any, ParameterSet], float]] = (bitarget_obj1, bitarget_obj2),
+) -> BiTarget2DSimulator:
+    return BiTarget2DSimulator(
+        parameter_bank=bank,
+        objectives=list(use_objectives),
+        constraints=None,
+        seeds=list(seeds) if seeds is not None else [None],
+        summary_fn=None,
+    )
