@@ -9,12 +9,12 @@ from .params import ParameterBank
 
 def build_box_prior_from_pareto(
     bank: ParameterBank,
-    X: np.ndarray,
+    pareto_matrix: np.ndarray,
     expand: float = 0.0,
 ):
     """Create an SBI BoxUniform prior from a Pareto decision matrix X.
 
-    - X is shape (N, D) in the sampled-parameter space as returned by the MOO (e.g., res["X"]).
+    - pareto_matrix is shape (N, D) in the sampled-parameter space as returned by the MOO (e.g., res["X"]).
     - expand expands the bounds by a fraction of the range per dimension.
     - Bounds are clamped to the ParameterBank's [lower_bounds, upper_bounds].
 
@@ -26,7 +26,7 @@ def build_box_prior_from_pareto(
     except Exception as e:
         raise ImportError("sbi (and torch) are required to build priors. Install sbi and torch.") from e
 
-    X = np.asarray(X, dtype=float)
+    X = np.asarray(pareto_matrix, dtype=float)
     if X.ndim != 2:
         raise ValueError("X must be a 2D array of Pareto decision vectors.")
     if X.shape[1] != len(bank.sampled):
